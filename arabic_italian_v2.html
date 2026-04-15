@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>مترجم عربي ⇄ إيطالي</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+    background: linear-gradient(180deg, #e8f5ec 0%, #f1f8f4 100%);
+    color: #1b3a2b;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ===== الهيدر ===== */
+  .header {
+    background: linear-gradient(135deg, #2e7d4f 0%, #3a9960 100%);
+    color: #fff;
+    padding: 24px 20px;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 4px 16px rgba(46,125,79,0.2);
+    text-align: center;
+  }
+  .header h1 { font-size: 22px; margin-bottom: 4px; }
+  .header p { font-size: 13px; opacity: 0.9; }
+
+  /* ===== المحتوى ===== */
+  .content { padding: 20px 16px; }
+  .page { display: none; animation: fade 0.25s ease; }
+  .page.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== الصفحة الرئيسية ===== */
+  .welcome {
+    text-align: center;
+    padding: 30px 20px 24px;
+  }
+  .welcome .icon {
+    width: 90px; height: 90px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 44px;
+    box-shadow: 0 6px 20px rgba(46,125,79,0.15);
+  }
+  .welcome h2 { font-size: 24px; color: #1b3a2b; margin-bottom: 6px; }
+  .welcome p { color: #5a7a68; font-size: 14px; }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 30px;
+  }
+  .menu-btn {
+    background: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(46,125,79,0.08);
+    text-align: right;
+    transition: transform 0.15s;
+  }
+  .menu-btn:active { transform: scale(0.97); }
+  .menu-btn .emoji {
+    width: 52px; height: 52px;
+    background: #e8f5ec;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .menu-btn .txt { flex: 1; }
+  .menu-btn .title { font-size: 17px; font-weight: 700; color: #1b3a2b; }
+  .menu-btn .sub { font-size: 12px; color: #7a9488; margin-top: 2px; }
+  .menu-btn .arrow { color: #2e7d4f; font-size: 20px; }
+
+  /* ===== البطاقات ===== */
+  .card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 3px 12px rgba(46,125,79,0.08);
+  }
+
+  /* ===== الترجمة ===== */
+  .lang-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .lang-pill {
+    flex: 1;
+    background: #e8f5ec;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: #2e7d4f;
+  }
+  .swap-btn {
+    width: 44px; height: 44px;
+    border: none;
+    background: #2e7d4f;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(46,125,79,0.25);
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 2px solid #e8f5ec;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 17px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    background: #fafefb;
+    color: #1b3a2b;
+  }
+  textarea:focus { border-color: #2e7d4f; }
+
+  .big-btn {
+    width: 100%;
+    padding: 16px;
+    background: #2e7d4f;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 12px;
+    box-shadow: 0 3px 10px rgba(46,125,79,0.25);
+  }
+  .big-btn:active { background: #256340; }
+  .big-btn:disabled { background: #a0c0ab; box-shadow: none; }
+
+  .result {
+    background: #f1f8f4;
+    border-right: 5px solid #2e7d4f;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 14px;
+    font-size: 19px;
+    min-height: 56px;
+    word-wrap: break-word;
+    line-height: 1.5;
+  }
+  .result.empty { color: #9ab0a4; font-size: 14px; font-style: italic; }
+
+  .action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .action-btn {
+    flex: 1;
+    padding: 13px;
+    background: #e8f5ec;
+    color: #2e7d4f;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .action-btn:active { background: #d4ebda; }
+
+  /* ===== عناصر الكلمات ===== */
+  .word-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(46,125,79,0.07);
+  }
+  .word-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .word-txt { flex: 1; min-width: 0; }
+  .word-ar { font-size: 18px; font-weight: 700; color: #1b3a2b; }
+  .word-it { font-size: 16px; color: #2e7d4f; margin-top: 3px; font-weight: 600; }
+  .word-ex { font-size: 13px; color: #7a9488; margin-top: 6px; font-style: italic; }
+  .icon-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: #e8f5ec;
+    color: #2e7d4f;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .icon-btn:active { background: #d4ebda; }
+  .icon-btn.star.active { background: #ffc107; color: #fff; }
+  .icon-btn.del { background: #fde8e8; color: #c62828; }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #7a9488;
+  }
+  .empty-state .big { font-size: 50px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+
+  /* ===== زر الرجوع ===== */
+  .back-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    position: absolute;
+    right: 16px;
+    top: 24px;
+    padding: 6px 12px;
+  }
+  .header-wrap { position: relative; }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1b3a2b;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    z-index: 100;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header-wrap">
+  <div class="header">
+    <button class="back-btn" id="backBtn" onclick="goHome()" style="display:none;">→</button>
+    <h1 id="headerTitle">🇸🇦 عربي ⇄ إيطالي 🇮🇹</h1>
+    <p id="headerSub">تعلم • ترجم • استمع</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ============ الصفحة الرئيسية ============ -->
+  <div id="home" class="page active">
+    <div class="welcome">
+      <div class="icon">🌍</div>
+      <h2>أهلاً بك!</h2>
+      <p>تطبيقك لتعلم الإيطالية</p>
+    </div>
+    <div class="menu">
+      <button class="menu-btn" onclick="goTo('translate')">
+        <div class="emoji">🔄</div>
+        <div class="txt">
+          <div class="title">الترجمة</div>
+          <div class="sub">ترجم من العربية للإيطالية والعكس</div>
+        </div>
+        <div class="arrow">‹</div>
+      </button>
+      <button class="menu-btn" onclick="goTo('learn')">
+        <div class="emoji">📚</div>
+        <div class="txt">
+          <div class="title">تعلم كلمات</div>
+          <div class="sub">٢٠ كلمة يومية مع أمثلة</div>
+        </div>
+        <div class="arrow">‹</div>
+      </button>
+      <button class="menu-btn" onclick="goTo('saved')">
+        <div class="emoji">⭐</div>
+        <div class="txt">
+          <div class="title">كلماتي المحفوظة</div>
+          <div class="sub">راجع ما حفظته</div>
+        </div>
+        <div class="arrow">‹</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ الترجمة ============ -->
+  <div id="translate" class="page">
+    <div class="card">
+      <div class="lang-row">
+        <div class="lang-pill" id="fromLangPill">العربية</div>
+        <button class="swap-btn" onclick="swapLang()">⇄</button>
+        <div class="lang-pill" id="toLangPill">الإيطالية</div>
+      </div>
+      <textarea id="inputText" placeholder="اكتب هنا..."></textarea>
+      <button class="big-btn" id="transBtn" onclick="doTranslate()">ترجمة</button>
+      <div class="result empty" id="result">الترجمة ستظهر هنا</div>
+      <div class="action-row">
+        <button class="action-btn" onclick="speakResult()">🔊 استماع</button>
+        <button class="action-btn" onclick="saveResult()">⭐ حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ التعلم ============ -->
+  <div id="learn" class="page">
+    <div id="learnList"></div>
+  </div>
+
+  <!-- ============ المحفوظة ============ -->
+  <div id="saved" class="page">
+    <div id="savedList"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ بيانات التعلم ============
+const dailyWords = [
+  { ar: "مرحباً", it: "Ciao", ex: "Ciao, come stai?" },
+  { ar: "شكراً", it: "Grazie", ex: "Grazie mille!" },
+  { ar: "من فضلك", it: "Per favore", ex: "Un caffè, per favore." },
+  { ar: "نعم", it: "Sì", ex: "Sì, certo." },
+  { ar: "لا", it: "No", ex: "No, grazie." },
+  { ar: "صباح الخير", it: "Buongiorno", ex: "Buongiorno a tutti!" },
+  { ar: "مساء الخير", it: "Buonasera", ex: "Buonasera signore." },
+  { ar: "تصبح على خير", it: "Buonanotte", ex: "Buonanotte!" },
+  { ar: "كيف حالك؟", it: "Come stai?", ex: "Ciao, come stai oggi?" },
+  { ar: "بخير", it: "Bene", ex: "Sto bene, grazie." },
+  { ar: "اسمي", it: "Mi chiamo", ex: "Mi chiamo Marco." },
+  { ar: "كم الثمن؟", it: "Quanto costa?", ex: "Quanto costa questo?" },
+  { ar: "ماء", it: "Acqua", ex: "Un bicchiere d'acqua." },
+  { ar: "طعام", it: "Cibo", ex: "Il cibo è buono." },
+  { ar: "خبز", it: "Pane", ex: "Vorrei del pane." },
+  { ar: "بيت", it: "Casa", ex: "Torno a casa." },
+  { ar: "صديق", it: "Amico", ex: "Il mio amico." },
+  { ar: "حب", it: "Amore", ex: "Con amore." },
+  { ar: "آسف", it: "Mi dispiace", ex: "Mi dispiace molto." },
+  { ar: "وداعاً", it: "Arrivederci", ex: "Arrivederci, a presto!" },
+];
+
+// ============ الحالة ============
+let fromLang = "ar", toLang = "it";
+let lastResult = { from: "", to: "", fromLang: "", toLang: "" };
+let saved = [];
+
+// تحميل المحفوظة من التخزين (مع حماية)
+try {
+  saved = JSON.parse(localStorage.getItem("saved_v2") || "[]");
+} catch(e) { saved = []; }
+
+// ============ التنقل ============
+function goTo(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("backBtn").style.display = id === "home" ? "none" : "block";
+  const titles = {
+    home: { t: "🇸🇦 عربي ⇄ إيطالي 🇮🇹", s: "تعلم • ترجم • استمع" },
+    translate: { t: "الترجمة", s: "عربي ⇄ إيطالي" },
+    learn: { t: "تعلم كلمات", s: "٢٠ كلمة يومية" },
+    saved: { t: "⭐ كلماتي المحفوظة", s: "راجع كلماتك" },
+  };
+  document.getElementById("headerTitle").textContent = titles[id].t;
+  document.getElementById("headerSub").textContent = titles[id].s;
+  if (id === "learn") renderLearn();
+  if (id === "saved") renderSaved();
+  window.scrollTo(0, 0);
+}
+function goHome() { goTo("home"); }
+
+// ============ Toast ============
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(window._toastT);
+  window._toastT = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+// ============ تبديل اللغة ============
+function swapLang() {
+  [fromLang, toLang] = [toLang, fromLang];
+  const n = { ar: "العربية", it: "الإيطالية" };
+  document.getElementById("fromLangPill").textContent = n[fromLang];
+  document.getElementById("toLangPill").textContent = n[toLang];
+  document.getElementById("inputText").placeholder =
+    fromLang === "ar" ? "اكتب هنا..." : "Scrivi qui...";
+}
+
+// ============ الترجمة ============
+async function doTranslate() {
+  const text = document.getElementById("inputText").value.trim();
+  const box = document.getElementById("result");
+  if (!text) { toast("اكتب شيئاً أولاً"); return; }
+
+  box.classList.remove("empty");
+  box.textContent = "جاري الترجمة...";
+  document.getElementById("transBtn").disabled = true;
+
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const translated = data[0].map(x => x[0]).join("");
+    box.textContent = translated;
+    lastResult = { from: text, to: translated, fromLang, toLang };
+  } catch (e) {
+    box.classList.add("empty");
+    box.textContent = "فشل الاتصال. تحقق من الإنترنت.";
+  } finally {
+    document.getElementById("transBtn").disabled = false;
+  }
+}
+
+// ============ النطق ============
+function speak(text, lang) {
+  if (!("speechSynthesis" in window)) {
+    toast("جهازك لا يدعم النطق");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === "ar" ? "ar-SA" : "it-IT";
+  u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+function speakResult() {
+  if (!lastResult.to) { toast("لا يوجد ترجمة"); return; }
+  speak(lastResult.to, lastResult.toLang);
+}
+
+// ============ الحفظ ============
+function persistSaved() {
+  try { localStorage.setItem("saved_v2", JSON.stringify(saved)); } catch(e) {}
+}
+function saveResult() {
+  if (!lastResult.to) { toast("لا يوجد ترجمة"); return; }
+  const item = lastResult.fromLang === "ar"
+    ? { ar: lastResult.from, it: lastResult.to }
+    : { ar: lastResult.to, it: lastResult.from };
+  if (saved.some(s => s.ar === item.ar && s.it === item.it)) {
+    toast("محفوظة مسبقاً ⭐"); return;
+  }
+  saved.push(item);
+  persistSaved();
+  toast("تم الحفظ ⭐");
+}
+
+// ============ صفحة التعلم ============
+function renderLearn() {
+  const list = document.getElementById("learnList");
+  list.innerHTML = dailyWords.map((w, i) => {
+    const isSaved = saved.some(s => s.ar === w.ar && s.it === w.it);
+    return `
+      <div class="word-card">
+        <div class="word-top">
+          <div class="word-txt">
+            <div class="word-ar">${w.ar}</div>
+            <div class="word-it">${w.it}</div>
+          </div>
+          <button class="icon-btn" onclick="speak('${w.it.replace(/'/g,"\\'")}','it')">🔊</button>
+          <button class="icon-btn star ${isSaved ? 'active' : ''}" onclick="toggleSave(${i})">★</button>
+        </div>
+        <div class="word-ex">${w.ex}</div>
+      </div>`;
+  }).join("");
+}
+function toggleSave(i) {
+  const w = dailyWords[i];
+  const idx = saved.findIndex(s => s.ar === w.ar && s.it === w.it);
+  if (idx >= 0) { saved.splice(idx, 1); toast("أُزيلت"); }
+  else { saved.push({ ar: w.ar, it: w.it }); toast("أُضيفت ⭐"); }
+  persistSaved();
+  renderLearn();
+}
+
+// ============ المحفوظة ============
+function renderSaved() {
+  const list = document.getElementById("savedList");
+  if (saved.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="big">⭐</div>
+        <p>لا توجد كلمات محفوظة بعد<br>احفظ كلمات من صفحة الترجمة أو التعلم</p>
+      </div>`;
+    return;
+  }
+  list.innerHTML = saved.map((w, i) => `
+    <div class="word-card">
+      <div class="word-top">
+        <div class="word-txt">
+          <div class="word-ar">${w.ar}</div>
+          <div class="word-it">${w.it}</div>
+        </div>
+        <button class="icon-btn" onclick="speak('${w.it.replace(/'/g,"\\'")}','it')">🔊</button>
+        <button class="icon-btn del" onclick="removeSaved(${i})">🗑</button>
+      </div>
+    </div>`).join("");
+}
+function removeSaved(i) {
+  saved.splice(i, 1);
+  persistSaved();
+  renderSaved();
+  toast("تم الحذف");
+}
+</script>
+</body>
+</html>
